@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+#
+/log
+/core
+/debug.log
+
+.bam/
+bam/build/

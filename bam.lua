@@ -43,7 +43,7 @@ function GenerateGenerelSettings(settings)
 end
 
 function GenerateClientSettings(settings)
-	GenerateLibSettings(settings, "lglut")
+	GenerateLibSettings(settings, "opengl")
 end
 
 if ScriptArgs["conf"] then

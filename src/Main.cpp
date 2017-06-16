@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "GL/freeglut.h"
-#include "GL/gl.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 int main()
 {
@@ -13,17 +13,6 @@ int main()
 
 void renderFunction()
 {
-	glClearColor(0.0, 0.0, 0.0, 0.0);
-	glClear(GL_COLOR_BUFFER_BIT);
-	glColor3f(1.0, 1.0, 1.0);
-	glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
-	glBegin(GL_POLYGON);
-	glVertex2f(-0.5, -0.5);
-	glVertex2f(-0.5, 0.5);
-	glVertex2f(0.5, 0.5);
-	glVertex2f(0.5, -0.5);
-	glEnd();
-	glFlush();
 }
 
 Main::Main()
@@ -31,13 +20,23 @@ Main::Main()
 
 void Main::start()
 {
-	int argc = 1;
-	char *argv[1] = {(char*)""};
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_SINGLE);
-	glutInitWindowSize(500, 500);
-	glutInitWindowPosition(100, 100);
-	glutCreateWindow("OpenGL - First window :D");
-	glutDisplayFunc(renderFunction);
-	glutMainLoop();
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+	GLFWwindow* window = glfwCreateWindow(800, 600, "GLFW - Window, ich komme :D", nullptr, nullptr);
+	if (window == nullptr)
+	{
+		std::cout << "Das ist jetzt schade, aber das macht nichts weil ich weiter arbeite" << std::endl;
+		glfwTerminate();
+		return;
+	}
+	glfwMakeContextCurrent(window);
+
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		std::cout << "Failed to initialize GLAD" << std::endl;
+		return;
+	}
 }

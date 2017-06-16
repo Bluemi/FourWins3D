@@ -44,6 +44,8 @@ end
 
 function GenerateClientSettings(settings)
 	GenerateLibSettings(settings, "opengl")
+	GenerateLibSettings(settings, "glfw")
+	-- GenerateLibSettings(settings, "glad")
 end
 
 if ScriptArgs["conf"] then

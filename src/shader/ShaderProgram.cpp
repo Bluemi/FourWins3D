@@ -1,9 +1,9 @@
 #include "ShaderProgram.hpp"
 
 #include <glad/glad.h>
-
 #include <fstream>
 #include <sstream>
+#include <iostream>
 
 #include <debug/Debug.hpp>
 
@@ -41,7 +41,7 @@ ShaderProgram::ShaderProgram(const std::string vertexPath, const std::string fra
 	{
 		int success;
 		char infoLog[INFO_LOG_SIZE];
-		fragment = glCreateShader(GL_VERTEX_SHADER);
+		fragment = glCreateShader(GL_FRAGMENT_SHADER);
 		const char* fc = fragmentCode.c_str();
 		glShaderSource(fragment, 1, &fc, NULL);
 		glCompileShader(fragment);
@@ -72,6 +72,7 @@ ShaderProgram::ShaderProgram(const std::string vertexPath, const std::string fra
 		{
 			glGetProgramInfoLog(programID, INFO_LOG_SIZE, NULL, infoLog);
 			Debug::out << Debug::error << "couldnt link program with vertexPath: \"" << vertexPath << "\"" << " fragmentPath: \"" << fragmentPath << "\"" << Debug::endl;
+			Debug::out << "infoLog:\n" << infoLog << Debug::endl;
 			works = false;
 		}
 		glDeleteShader(vertex);

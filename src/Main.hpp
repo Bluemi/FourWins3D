@@ -4,6 +4,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <shader/ShaderProgram.hpp>
+
 class Main
 {
 	public:
@@ -21,9 +23,7 @@ class Main
 		GLFWwindow* window_;
 		unsigned int VBO;
 		unsigned int VAO;
-		unsigned int vertexShader;
-		unsigned int fragmentShader;
-		unsigned int shaderProgram;
+		ShaderProgram *shaderProgram;
 };
 
 #endif

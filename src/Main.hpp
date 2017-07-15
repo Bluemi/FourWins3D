@@ -4,7 +4,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <vector>
+
 #include <shader/ShaderProgram.hpp>
+#include <camera/Camera.hpp>
 
 class Main
 {
@@ -15,6 +18,7 @@ class Main
 		void init();
 		void run();
 		void close();
+
 	private:
 		void processInput();
 		void render();
@@ -23,7 +27,16 @@ class Main
 		GLFWwindow* window_;
 		unsigned int VBO;
 		unsigned int VAO;
+		unsigned int texture0;
+		unsigned int texture1;
+
+		unsigned int screenWidth;
+		unsigned int screenHeight;
+
 		ShaderProgram *shaderProgram;
+		Camera *camera;
+
+		std::vector<glm::vec3> cubePositions;
 };
 
 #endif

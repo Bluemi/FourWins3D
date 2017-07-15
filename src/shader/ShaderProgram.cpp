@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <debug/Debug.hpp>
 
@@ -98,6 +99,16 @@ void ShaderProgram::setFloat(const std::string &name, float value) const
 void ShaderProgram::setInt(const std::string &name, int value) const
 {
 	glUniform1i(glGetUniformLocation(programID, name.c_str()), value);
+}
+
+void ShaderProgram::setMat4(const std::string &name, const glm::mat4 value) const
+{
+	glUniformMatrix4fv(glGetUniformLocation(programID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
+}
+
+int ShaderProgram::getID() const
+{
+	return programID;
 }
 
 bool ShaderProgram::loadFromFile(const std::string path, std::string *text) const

@@ -21,9 +21,6 @@ void MouseManager::call()
 	{
 		listener->onMouseMoved(current-last);
 	}
-	glm::vec2 diff = (current-last);
-	if (diff.x != 0.0f && (diff.y != 0.0f))
-		std::cout << diff.x << " " << diff.y << std::endl;
 	last = current;
 }
 

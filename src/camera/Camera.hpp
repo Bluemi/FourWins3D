@@ -12,6 +12,7 @@ class Camera : public MouseListener
 		glm::vec3 getUp() const;
 		glm::vec3 getRight() const;
 		glm::vec3 getDirection() const;
+		glm::vec3 getTop() const;
 		glm::mat4 getLookAt() const;
 
 		void captureMouse();
@@ -21,6 +22,8 @@ class Camera : public MouseListener
 		void goBackward();
 		void goLeft();
 		void goRight();
+		void goTop();
+		void goBottom();
 	private:
 		const float camSpeed = 0.05f;
 		glm::vec3 position;

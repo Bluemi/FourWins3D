@@ -1,6 +1,5 @@
 #include "Main.hpp"
 
-#include <iostream>
 #include <unistd.h>
 #include <thread>
 #include <chrono>
@@ -36,11 +35,6 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-void mouse_callback(GLFWwindow* w, double x, double y)
-{
-	std::cout << x << "\t" << y << std::endl;
-}
-
 void Main::init()
 {
 	// setup GLFW
@@ -55,7 +49,7 @@ void Main::init()
 	screenHeight = 600;
 	if (window_ == nullptr)
 	{
-		std::cout << "ERROR: Main::init(): can't create window" << std::endl;
+		Debug::out << Debug::error << "Main::init(): can't create window" << Debug::endl;
 		glfwTerminate();
 		return;
 	}
@@ -64,7 +58,7 @@ void Main::init()
 	// setup glad
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		std::cout << "ERROR: Main::init(): Failed to initialize GLAD" << std::endl;
+		Debug::out << Debug::error << "Main::init(): Failed to initialize GLAD" << Debug::endl;
 		return;
 	}
 
@@ -80,68 +74,9 @@ void Main::init()
 
 	camera->captureMouse();
 
-	// initiate vertices
-	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-
-	// initiate VAO
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-
-	// initiate VBO
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	// Linking Vertex Attributes
-	const unsigned stripe = 5*sizeof(float);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stripe, 0);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stripe, (void*)(3*sizeof(float)));
-	glEnableVertexAttribArray(1);
-	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, stripe, (void*)(6*sizeof(float)));
-	//glEnableVertexAttribArray(2);
+	cubeShape = new CubeShape();
+	cubeShape->load();
+	Shape::unuse();
 
 	// texture 0
 	glGenTextures(1, &texture0);
@@ -165,9 +100,6 @@ void Main::init()
 	}
 
 	stbi_image_free(data);
-
-	// unbind VAO
-	glBindVertexArray(0);
 
 	shaderProgram = new ShaderProgram("./src/shader/shaders/vertex.shader", "./src/shader/shaders/fragment.shader");
 
@@ -197,8 +129,7 @@ void Main::run()
 
 void Main::close()
 {
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
+	delete cubeShape;
 	delete shaderProgram;
 	glfwTerminate();
 }
@@ -217,6 +148,10 @@ void Main::processInput()
 		camera->goLeft();
 	if (glfwGetKey(window_, GLFW_KEY_D) == GLFW_PRESS)
 		camera->goRight();
+	if (glfwGetKey(window_, GLFW_KEY_SPACE) == GLFW_PRESS)
+		camera->goTop();
+	if (glfwGetKey(window_, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+		camera->goBottom();
 }
 
 void Main::render()
@@ -231,7 +166,7 @@ void Main::render()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture0);
 
-	glBindVertexArray(VAO);
+	cubeShape->use();
 	// render
 	for (glm::vec3 pos : cubePositions)
 	{
@@ -240,7 +175,7 @@ void Main::render()
 		shaderProgram->setMat4("model", model);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
-	glBindVertexArray(0);
+	Shape::unuse();
 	glfwSwapBuffers(window_);
 }
 

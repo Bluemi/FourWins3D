@@ -29,6 +29,11 @@ glm::vec3 Camera::getDirection() const
 	);
 }
 
+glm::vec3 Camera::getTop() const
+{
+	return glm::normalize(glm::cross(getRight(), getDirection()));
+}
+
 glm::mat4 Camera::getLookAt() const
 {
 	return glm::lookAt(position, position + getDirection(), getUp());
@@ -71,4 +76,14 @@ void Camera::goLeft()
 void Camera::goRight()
 {
 	position += getRight() * camSpeed;
+}
+
+void Camera::goTop()
+{
+	position += getTop() * camSpeed;
+}
+
+void Camera::goBottom()
+{
+	position -= getTop() * camSpeed;
 }

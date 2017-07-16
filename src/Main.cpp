@@ -166,25 +166,6 @@ void Main::init()
 
 	stbi_image_free(data);
 
-	// texture 1
-	glGenTextures(1, &texture1);
-	glBindTexture(GL_TEXTURE_2D, texture1);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	path = "./res/awesomeface.png";
-	data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
-	if (data)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	} else {
-		Debug::out << Debug::error << "couldnt load " << path << Debug::endl;
-	}
-
 	// unbind VAO
 	glBindVertexArray(0);
 
@@ -192,7 +173,6 @@ void Main::init()
 
 	shaderProgram->use();
 	shaderProgram->setInt("texture0", 0);
-	shaderProgram->setInt("texture1", 1);
 
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(45.0f), screenWidth/(float)screenHeight, 0.1f, 100.f);
@@ -250,8 +230,6 @@ void Main::render()
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture0);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, texture1);
 
 	glBindVertexArray(VAO);
 	// render

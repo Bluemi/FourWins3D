@@ -43,6 +43,14 @@ void Camera::onMouseMoved(glm::vec2 diff)
 {
 	yaw += diff.x * CAMERA_ROTATE_SPEED;
 	pitch -= diff.y * CAMERA_ROTATE_SPEED;
+	if (pitch > 89.0f)
+	{
+		pitch = 89.0f;
+	}
+	if (pitch < -89.0f)
+	{
+		pitch = -89.0f;
+	}
 }
 
 void Camera::goForward()

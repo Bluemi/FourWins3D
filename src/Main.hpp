@@ -28,7 +28,6 @@ class Main
 		unsigned int VBO;
 		unsigned int VAO;
 		unsigned int texture0;
-		unsigned int texture1;
 
 		unsigned int screenWidth;
 		unsigned int screenHeight;

@@ -9,6 +9,8 @@
 #include <shader/ShaderProgram.hpp>
 #include <camera/Camera.hpp>
 #include <shape/CubeShape.hpp>
+#include <texture/Texture.hpp>
+#include <entity/Entity.hpp>
 
 class Main
 {
@@ -26,7 +28,6 @@ class Main
 		void clear();
 
 		GLFWwindow* window_;
-		unsigned int texture0;
 
 		unsigned int screenWidth;
 		unsigned int screenHeight;
@@ -34,8 +35,9 @@ class Main
 		ShaderProgram *shaderProgram;
 		Camera *camera;
 		CubeShape *cubeShape;
+		Texture *texture;
 
-		std::vector<glm::vec3> cubePositions;
+		std::vector<Entity> entities;
 };
 
 #endif

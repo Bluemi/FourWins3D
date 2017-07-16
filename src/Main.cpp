@@ -5,7 +5,6 @@
 #include <chrono>
 #include <math.h>
 
-#include <images/stb_image.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -62,7 +61,6 @@ void Main::init()
 		return;
 	}
 
-	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -78,41 +76,21 @@ void Main::init()
 	cubeShape->load();
 	Shape::unuse();
 
-	// texture 0
-	glGenTextures(1, &texture0);
-	glBindTexture(GL_TEXTURE_2D, texture0);
+	// texture
+	texture = new Texture();
+	texture->load("./res/container.jpg");
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	int width, height, nrChannels;
-	std::string path = "./res/container.jpg";
-	stbi_set_flip_vertically_on_load(true);
-	unsigned char *data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
-	if (data)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	} else {
-		Debug::out << Debug::error << "couldnt load " << path << Debug::endl;
-	}
-
-	stbi_image_free(data);
-
+	// shader
 	shaderProgram = new ShaderProgram("./src/shader/shaders/vertex.shader", "./src/shader/shaders/fragment.shader");
-
 	shaderProgram->use();
-	shaderProgram->setInt("texture0", 0);
 
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(45.0f), screenWidth/(float)screenHeight, 0.1f, 100.f);
 	shaderProgram->setMat4("projection", projection);
 
-	cubePositions.push_back(glm::vec3(0.0f, 0.0f, -1.0f));
-	cubePositions.push_back(glm::vec3(-2.0f, 1.0f, -5.0f));
-	cubePositions.push_back(glm::vec3(5.0f, -3.f, -7.0f));
+	entities.push_back(Entity(glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f), texture));
+	entities.push_back(Entity(glm::vec3(-2.0f, 1.0f, -5.0f), glm::vec3(0.0f, 1.0f, 0.0f), texture));
+	entities.push_back(Entity(glm::vec3(5.0f, -3.f, -7.0f), glm::vec3(0.0f, 0.0f, 1.0f), texture));
 }
 
 void Main::run()
@@ -157,22 +135,18 @@ void Main::processInput()
 void Main::render()
 {
 	clear();
+
 	shaderProgram->use();
 
 	glm::mat4 view = camera->getLookAt();
 
 	shaderProgram->setMat4("view", view);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture0);
-
+	texture->use();
 	cubeShape->use();
 	// render
-	for (glm::vec3 pos : cubePositions)
+	for (Entity e : entities)
 	{
-		glm::mat4 model;
-		model = glm::translate(model, pos);
-		shaderProgram->setMat4("model", model);
+		shaderProgram->setMat4("model", e.getModel());
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
 	Shape::unuse();

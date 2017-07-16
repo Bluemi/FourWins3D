@@ -35,6 +35,7 @@
 /log
 /core
 /debug.log
+/res
 
 .bam/
 bam/build/

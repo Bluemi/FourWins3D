@@ -17,7 +17,7 @@ void Game::init(const unsigned int screenWidth, const unsigned int screenHeight)
 
 	controller.init(this);
 
-	shader3D.load("./src/shader/shaders/vertex3d.shader", "./src/shader/shaders/fragment3d.shader");
+	shader3D.load("./src/shader/shaders/game.vs", "./src/shader/shaders/game.fs");
 	shader3D.use();
 	shader3D.setMat4("projection", glm::perspective(glm::radians(45.0f), screenWidth/(float)screenHeight, 0.1f, 100.f));
 

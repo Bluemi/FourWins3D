@@ -19,12 +19,13 @@ class KeyboardManager
 	public:
 		static void init(GLFWwindow *w);
 		static void capture(KeyboardListener *l);
+		static void uncapture(KeyboardListener *l);
 		static bool isKeyPressed(const int key);
 		static void call();
 	private:
 		KeyboardManager();
 
-		static KeyboardListener *listener;
+		static std::vector<KeyboardListener*> listeners;
 		static GLFWwindow *window;
 		static std::vector<KeyboardKey> keys;
 };

@@ -1,6 +1,6 @@
 #include "KeyboardManager.hpp"
 
-KeyboardListener *KeyboardManager::listener;
+std::vector<KeyboardListener*> KeyboardManager::listeners;
 GLFWwindow *KeyboardManager::window;
 std::vector<KeyboardManager::KeyboardKey> KeyboardManager::keys;
 
@@ -11,15 +11,25 @@ void KeyboardManager::init(GLFWwindow *w)
 	keys.push_back(KeyboardKey(GLFW_KEY_A));
 	keys.push_back(KeyboardKey(GLFW_KEY_S));
 	keys.push_back(KeyboardKey(GLFW_KEY_D));
+	keys.push_back(KeyboardKey(GLFW_KEY_E));
 	keys.push_back(KeyboardKey(GLFW_KEY_SPACE));
 	keys.push_back(KeyboardKey(GLFW_KEY_LEFT_CONTROL));
-
-	listener = nullptr;
 }
 
 void KeyboardManager::capture(KeyboardListener *l)
 {
-	listener = l;
+	listeners.push_back(l);
+}
+
+void KeyboardManager::uncapture(KeyboardListener *l)
+{
+	for (auto iter = listeners.begin(); iter != listeners.end(); ++iter)
+	{
+		if (*iter == l)
+		{
+			listeners.erase(iter);
+		}
+	}
 }
 
 void KeyboardManager::call()
@@ -29,7 +39,7 @@ void KeyboardManager::call()
 		if (k.pressed != (glfwGetKey(window, k.key) == GLFW_PRESS))
 		{
 			k.pressed = (glfwGetKey(window, k.key) == GLFW_PRESS);
-			if (listener != nullptr)
+			for (KeyboardListener *listener : listeners)
 			{
 				if (k.pressed)
 				{

@@ -9,7 +9,6 @@ class CubeShape : public Shape
 		CubeShape();
 		virtual void load() override;
 		virtual void defineVertexAttribPointer() const override;
-		virtual std::vector<Plane> getPlanes() const override;
 };
 
 #endif

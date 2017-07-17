@@ -9,6 +9,7 @@
 #include <texture/Texture.hpp>
 #include <shape/CubeShape.hpp>
 #include <game/container/BlockContainer.hpp>
+#include "Controller.hpp"
 
 class Game
 {
@@ -17,11 +18,13 @@ class Game
 		void init(const unsigned int screenWidth, const unsigned int screenHeight);
 		void tick();
 		void render();
+		void addBlock();
 	private:
 		Camera camera;
 		ShaderProgram shader3D;
 		Texture texture;
 		CubeShape cubeShape;
+		Controller controller;
 
 		BlockContainer blocks;
 };

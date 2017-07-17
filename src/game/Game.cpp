@@ -30,8 +30,7 @@ void Game::init(const unsigned int screenWidth, const unsigned int screenHeight)
 	cubeShape.load();
 	crossShape.load();
 
-	blocks.insert(0, 0, 0, new Entity(glm::vec3(0, 0, 0), glm::vec3(1, 0, 0), &cubeShape, &texture));
-	blocks.insert(1, 0, 0, new Entity(glm::vec3(1, 0, 0), glm::vec3(1, 0, 0), &cubeShape, &texture));
+	blocks.insert(0, 0, 0, new Entity(glm::vec3(0, 0, 0), glm::vec3(0.5f, 0.5f, 0.5f), &cubeShape, &texture));
 }
 
 void Game::tick()
@@ -49,6 +48,7 @@ void Game::render()
 	{
 		e->getTexture()->use();
 		e->getShape()->use();
+		gameShader.setVec3("color", e->getColor());
 		gameShader.setMat4("model", e->getModel());
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
@@ -63,11 +63,6 @@ void Game::addBlock()
 	glm::vec3 newPosition;
 	if (blocks.canPlaceBlockHere(camera.getPosition(), camera.getDirection(), newPosition))
 	{
-		std::cout << "block added" << std::endl;
-		blocks.insert((int)newPosition.x, (int)newPosition.y, (int)newPosition.z, new Entity(newPosition, glm::vec3(1, 0, 0), &cubeShape, &texture));
-	}
-	else
-	{
-		std::cout << "can't add block" << std::endl;
+		blocks.insert((int)newPosition.x, (int)newPosition.y, (int)newPosition.z, new Entity(newPosition, glm::vec3(0.7f, 0.2f, 0.2f), &cubeShape, &texture));
 	}
 }

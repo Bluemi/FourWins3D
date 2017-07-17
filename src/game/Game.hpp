@@ -30,6 +30,8 @@ class Game
 		Controller controller;
 
 		BlockContainer blocks;
+
+		bool nextBlockRed;
 };
 
 #endif

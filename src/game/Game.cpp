@@ -7,7 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 Game::Game()
-	: camera(glm::vec3(0.0f, 0.0f, 3.0f), 0.0f, -90.f), controller()
+	: camera(glm::vec3(0.0f, 0.0f, 3.0f), 0.0f, -90.f), controller(), nextBlockRed(true)
 {}
 
 void Game::init(const unsigned int screenWidth, const unsigned int screenHeight)
@@ -63,6 +63,14 @@ void Game::addBlock()
 	glm::vec3 newPosition;
 	if (blocks.canPlaceBlockHere(camera.getPosition(), camera.getDirection(), newPosition))
 	{
-		blocks.insert((int)newPosition.x, (int)newPosition.y, (int)newPosition.z, new Entity(newPosition, glm::vec3(0.7f, 0.2f, 0.2f), &cubeShape, &texture));
+		glm::vec3 c;
+		if (nextBlockRed)
+		{
+			c = glm::vec3(0.7f, 0.3f, 0.3f);
+		} else {
+			c = glm::vec3(0.6f, 0.6f, 0.2f);
+		}
+		nextBlockRed = !nextBlockRed;
+		blocks.insert((int)newPosition.x, (int)newPosition.y, (int)newPosition.z, new Entity(newPosition, c, &cubeShape, &texture));
 	}
 }

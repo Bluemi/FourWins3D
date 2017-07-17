@@ -154,6 +154,10 @@ bool BlockContainer::canPlaceBlockHere(const glm::vec3 &camPosition, const glm::
 	BlockState state(camPosition, camDir);
 	BlockState lastState(state);
 	bool inScope = true;
+	if (isBlockThere(state.xBlock, state.yBlock, state.zBlock))
+	{
+		inScope = false;
+	}
 	bool wasInScope = false;
 	bool found = false;
 	int counter = 0;

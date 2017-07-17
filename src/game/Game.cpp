@@ -58,5 +58,8 @@ void Game::addBlock()
 		std::cout << "block added" << std::endl;
 		blocks.insert((int)newPosition.x, (int)newPosition.y, (int)newPosition.z, new Entity(newPosition, glm::vec3(1, 0, 0), &cubeShape, &texture));
 	}
-	std::cout << "can't add block" << std::endl;
+	else
+	{
+		std::cout << "can't add block" << std::endl;
+	}
 }

@@ -62,3 +62,15 @@ void CubeShape::defineVertexAttribPointer() const
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stripe, (void*)(3*sizeof(float)));
 	glEnableVertexAttribArray(1);
 }
+
+std::vector<Plane> CubeShape::getPlanes() const
+{
+	std::vector<Plane> planes;
+	planes.push_back(Plane(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(0.5f, -0.5f, -0.5f))); // front
+	planes.push_back(Plane(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0.5f, -0.5f, 0.5f))); // back
+	planes.push_back(Plane(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(-0.5f, 0.5f, -0.5f))); // left
+	planes.push_back(Plane(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.5f, 0.5f, -0.5f))); // right
+	planes.push_back(Plane(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, -0.5f))); // top
+	planes.push_back(Plane(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(0.5f, -0.5f, -0.5f))); // bot
+	return planes;
+}

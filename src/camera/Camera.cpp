@@ -5,10 +5,27 @@
 #include <math.h>
 
 #include <interaction/MouseManager.hpp>
+#include <interaction/KeyboardManager.hpp>
 
 Camera::Camera(const glm::vec3 &pos, const float pitch, const float yaw)
-	: position(pos), pitch(pitch), yaw(yaw)
+	: position(pos), pitch(pitch), yaw(yaw), moveForward(0), moveRight(0), moveTop(0)
 {}
+
+void Camera::tick()
+{
+	speed += getDirection() * (moveForward * CAMERA_SPEED);
+	speed += getRight() * (moveRight * CAMERA_SPEED);
+	speed += getTop() * (moveTop * CAMERA_SPEED);
+	speed *= CAMERA_DRAG;
+	position += speed;
+}
+
+void Camera::stop()
+{
+	moveForward = 0;
+	moveRight = 0;
+	moveTop = 0;
+}
 
 glm::vec3 Camera::getUp() const
 {
@@ -39,9 +56,19 @@ glm::mat4 Camera::getLookAt() const
 	return glm::lookAt(position, position + getDirection(), getUp());
 }
 
+glm::vec3 Camera::getPosition() const
+{
+	return position;
+}
+
 void Camera::captureMouse()
 {
 	MouseManager::capture(this);
+}
+
+void Camera::captureKeyboard()
+{
+	KeyboardManager::capture(this);
 }
 
 void Camera::onMouseMoved(glm::vec2 diff)
@@ -58,32 +85,56 @@ void Camera::onMouseMoved(glm::vec2 diff)
 	}
 }
 
-void Camera::goForward()
+void Camera::onKeyPressed(const int key)
 {
-	position += getDirection() * camSpeed;
+	switch (key)
+	{
+		case GLFW_KEY_W:
+			moveForward++;
+			break;
+		case GLFW_KEY_S:
+			moveForward--;
+			break;
+		case GLFW_KEY_A:
+			moveRight--;
+			break;
+		case GLFW_KEY_D:
+			moveRight++;
+			break;
+		case GLFW_KEY_SPACE:
+			moveTop++;
+			break;
+		case GLFW_KEY_LEFT_CONTROL:
+			moveTop--;
+			break;
+		default:
+			break;
+	}
 }
 
-void Camera::goBackward()
+void Camera::onKeyReleased(const int key)
 {
-	position -= getDirection() * camSpeed;
-}
-
-void Camera::goLeft()
-{
-	position -= getRight() * camSpeed;
-}
-
-void Camera::goRight()
-{
-	position += getRight() * camSpeed;
-}
-
-void Camera::goTop()
-{
-	position += getTop() * camSpeed;
-}
-
-void Camera::goBottom()
-{
-	position -= getTop() * camSpeed;
+	switch (key)
+	{
+		case GLFW_KEY_W:
+			moveForward--;
+			break;
+		case GLFW_KEY_S:
+			moveForward++;
+			break;
+		case GLFW_KEY_A:
+			moveRight++;
+			break;
+		case GLFW_KEY_D:
+			moveRight--;
+			break;
+		case GLFW_KEY_SPACE:
+			moveTop--;
+			break;
+		case GLFW_KEY_LEFT_CONTROL:
+			moveTop++;
+			break;
+		default:
+			break;
+	}
 }

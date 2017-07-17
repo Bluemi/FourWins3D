@@ -7,8 +7,9 @@
 class ShaderProgram
 {
 	public:
-		ShaderProgram(const std::string vertexPath, const std::string fragmentPath);
-		void use();
+		ShaderProgram();
+		void load(const std::string vertexPath, const std::string fragmentPath);
+		void use() const;
 		static void unuse();
 		void setBool(const std::string &name, bool value) const;
 		void setFloat(const std::string &name, float value) const;

@@ -6,11 +6,7 @@
 
 #include <vector>
 
-#include <shader/ShaderProgram.hpp>
-#include <camera/Camera.hpp>
-#include <shape/CubeShape.hpp>
-#include <texture/Texture.hpp>
-#include <entity/Entity.hpp>
+#include <game/Game.hpp>
 
 class Main
 {
@@ -23,21 +19,15 @@ class Main
 		void close();
 
 	private:
-		void processInput();
-		void render();
+		void render(Game &game);
 		void clear();
+
+		void processInput();
 
 		GLFWwindow* window_;
 
 		unsigned int screenWidth;
 		unsigned int screenHeight;
-
-		ShaderProgram *shaderProgram;
-		Camera *camera;
-		CubeShape *cubeShape;
-		Texture *texture;
-
-		std::vector<Entity> entities;
 };
 
 #endif

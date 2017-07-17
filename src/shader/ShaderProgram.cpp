@@ -8,7 +8,10 @@
 
 #include <debug/Debug.hpp>
 
-ShaderProgram::ShaderProgram(const std::string vertexPath, const std::string fragmentPath)
+ShaderProgram::ShaderProgram()
+{}
+
+void ShaderProgram::load(const std::string vertexPath, const std::string fragmentPath)
 {
 	bool works = true;
 
@@ -81,7 +84,7 @@ ShaderProgram::ShaderProgram(const std::string vertexPath, const std::string fra
 	}
 }
 
-void ShaderProgram::use()
+void ShaderProgram::use() const
 {
 	glUseProgram(programID);
 }

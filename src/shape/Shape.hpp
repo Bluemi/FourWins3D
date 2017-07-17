@@ -1,6 +1,10 @@
 #ifndef __SHAPE_CLASS__
 #define __SHAPE_CLASS__
 
+#include <vector>
+
+#include "Plane.hpp"
+
 class Shape
 {
 	public:
@@ -8,6 +12,7 @@ class Shape
 		virtual ~Shape();
 		virtual void load() = 0;
 		virtual void defineVertexAttribPointer() const = 0;
+		virtual std::vector<Plane> getPlanes() const = 0;
 		void use() const;
 		static void unuse();
 	protected:

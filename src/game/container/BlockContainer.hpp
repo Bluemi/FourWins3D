@@ -13,6 +13,7 @@ class BlockContainer
 {
 	public:
 		BlockContainer();
+		~BlockContainer();
 		bool inScope(const vec3i &index);
 		bool isBlockThere(const vec3i &index);
 		bool insert(const vec3i &index, Entity* block);

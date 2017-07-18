@@ -9,6 +9,14 @@
 BlockContainer::BlockContainer()
 {}
 
+BlockContainer::~BlockContainer()
+{
+	for (Entity* e : blockList)
+	{
+		delete e;
+	}
+}
+
 bool BlockContainer::inScope(const vec3i &index)
 {
 	return (index >= minIndex) && (index <= maxIndex);

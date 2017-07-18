@@ -9,7 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <debug/Debug.hpp>
+#include <misc/Debug.hpp>
 #include <interaction/MouseManager.hpp>
 #include <interaction/KeyboardManager.hpp>
 

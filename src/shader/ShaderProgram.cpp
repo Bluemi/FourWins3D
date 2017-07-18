@@ -6,7 +6,7 @@
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <debug/Debug.hpp>
+#include <misc/Debug.hpp>
 
 ShaderProgram::ShaderProgram()
 {}

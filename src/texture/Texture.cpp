@@ -4,7 +4,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <debug/Debug.hpp>
+#include <misc/Debug.hpp>
 
 Texture::Texture()
 {

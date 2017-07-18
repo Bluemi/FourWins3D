@@ -6,6 +6,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <math/vec3i.hpp>
+
 Game::Game()
 	: camera(glm::vec3(0.0f, 0.0f, 3.0f), 0.0f, -90.f), controller(), nextBlockRed(true)
 {}
@@ -30,7 +32,7 @@ void Game::init(const unsigned int screenWidth, const unsigned int screenHeight)
 	cubeShape.load();
 	crossShape.load();
 
-	blocks.insert(0, 0, 0, new Entity(glm::vec3(0, 0, 0), glm::vec3(0.5f, 0.5f, 0.5f), &cubeShape, &texture));
+	blocks.insert(vec3i(), new Entity(glm::vec3(0, 0, 0), glm::vec3(0.5f, 0.5f, 0.5f), &cubeShape, &texture));
 }
 
 void Game::tick()
@@ -53,16 +55,23 @@ void Game::render()
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
 
+
 	guiShader.use();
 	crossShape.use();
+	if (nextBlockRed) {
+		guiShader.setVec3("color", glm::vec3(0.7, 0.1f, 0.1f));
+	} else {
+		guiShader.setVec3("color", glm::vec3(0.5, 0.5f, 0.1f));
+	}
 	glDrawArrays(GL_TRIANGLES, 0, 12);
 }
 
 void Game::addBlock()
 {
-	glm::vec3 newPosition;
+	vec3i newPosition;
 	if (blocks.canPlaceBlockHere(camera.getPosition(), camera.getDirection(), newPosition))
 	{
+		std::cout << "placed block" << std::endl;
 		glm::vec3 c;
 		if (nextBlockRed)
 		{
@@ -71,6 +80,8 @@ void Game::addBlock()
 			c = glm::vec3(0.6f, 0.6f, 0.2f);
 		}
 		nextBlockRed = !nextBlockRed;
-		blocks.insert((int)newPosition.x, (int)newPosition.y, (int)newPosition.z, new Entity(newPosition, c, &cubeShape, &texture));
+		blocks.insert(newPosition, new Entity(newPosition.toVec3(), c, &cubeShape, &texture));
 	}
+	else
+		std::cout << "cant place block" << std::endl;
 }

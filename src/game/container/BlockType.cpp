@@ -7,12 +7,16 @@ BlockType nextBlockType(BlockType t)
 	{
 		case BlockType::NONE:
 			res = BlockType::NONE;
+			break;
 		case BlockType::RED:
 			res = BlockType::YELLOW;
+			break;
 		case BlockType::YELLOW:
 			res = BlockType::RED;
+			break;
 		default:
 			res = BlockType::NONE;
+			break;
 	}
 	return res;
 }
@@ -23,10 +27,10 @@ glm::vec3 toColor(const BlockType type)
 	switch (type)
 	{
 		case BlockType::NONE:
-			c = glm::vec3(0, 0, 0);
+			c = glm::vec3(0.5f, 0.5f, 0.5f);
 			break;
 		case BlockType::RED:
-			c = glm::vec3(0.7f, 0.1f, 0.1f);
+			c = glm::vec3(0.6f, 0.1f, 0.1f);
 			break;
 		case BlockType::YELLOW:
 			c = glm::vec3(0.5f, 0.5f, 0.1f);

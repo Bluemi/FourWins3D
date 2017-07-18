@@ -91,3 +91,9 @@ void Game::checkForWinners(const vec3i &position)
 		blocks.randomShit();
 	}
 }
+
+void Game::restart()
+{
+	blocks.clearAndDelete();
+	blocks.insert(vec3i(), new Entity(glm::vec3(0, 0, 0), BlockType::NONE, &cubeShape, &texture));
+}

@@ -41,7 +41,7 @@ void Main::init()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// create Window
-	window_ = glfwCreateWindow(800, 600, "4 wins", nullptr, nullptr);
+	window_ = glfwCreateWindow(800, 600, "5 Gewinnt", nullptr, nullptr);
 	screenWidth = 800;
 	screenHeight = 600;
 	if (window_ == nullptr)

@@ -12,6 +12,7 @@ void KeyboardManager::init(GLFWwindow *w)
 	keys.push_back(KeyboardKey(GLFW_KEY_S));
 	keys.push_back(KeyboardKey(GLFW_KEY_D));
 	keys.push_back(KeyboardKey(GLFW_KEY_E));
+	keys.push_back(KeyboardKey(GLFW_KEY_R));
 	keys.push_back(KeyboardKey(GLFW_KEY_SPACE));
 	keys.push_back(KeyboardKey(GLFW_KEY_LEFT_CONTROL));
 }

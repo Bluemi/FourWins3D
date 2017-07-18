@@ -23,6 +23,7 @@ class Game
 		void render();
 		void addBlock();
 		void checkForWinners(const vec3i &position);
+		void restart();
 	private:
 		Camera camera;
 		ShaderProgram gameShader;

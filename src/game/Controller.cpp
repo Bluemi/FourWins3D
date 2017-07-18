@@ -17,6 +17,10 @@ void Controller::onKeyPressed(int key)
 	{
 		case GLFW_KEY_E:
 			game->addBlock();
+			break;
+		case GLFW_KEY_R:
+			game->restart();
+			break;
 		default:
 			break;
 	}

@@ -7,17 +7,24 @@
 #include "BlockState.hpp"
 #include "BlockRow.hpp"
 
-const int BlockContainer::WINNER_LIMIT = 4;
+const int BlockContainer::WINNER_LIMIT = 5;
 
 BlockContainer::BlockContainer()
 {}
 
 BlockContainer::~BlockContainer()
 {
+	clearAndDelete();
+}
+
+void BlockContainer::clearAndDelete()
+{
 	for (Entity* e : blockList)
 	{
 		delete e;
 	}
+	blockList.clear();
+	blocks.clear();
 }
 
 bool BlockContainer::inScope(const vec3i &index)

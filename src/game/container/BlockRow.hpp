@@ -3,22 +3,19 @@
 
 #include <vector>
 
-#include "BlockType.hpp"
+#include "BlockContainer.hpp"
+#include <entity/Entity.hpp>
 
 class BlockRow
 {
 	public:
-		BlockRow(short xStep, short yStep, short zStep);
-		void nextStep();
-		short getxStep() const;
-		short getyStep() const;
-		short getzStep() const;
-		void addBlock(BlockType b);
+		BlockRow(const vec3i &step);
+		vec3i getStep() const;
+		void buildFrom(const vec3i &pos, BlockContainer *container);
+		BlockType hasWinnerRow(const unsigned int limit, std::vector<Entity*> &winnerEntities);
 	private:
-		std::vector<BlockType> blocks;
-		short xStep;
-		short yStep;
-		short zStep;
+		std::vector<Entity*> blocks;
+		vec3i step;
 };
 
 #endif

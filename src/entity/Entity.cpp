@@ -2,8 +2,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-Entity::Entity(const glm::vec3 &position, const glm::vec3 color, Shape* shape, Texture *texture)
-	: color(color), shape(shape), texture(texture)
+Entity::Entity(const glm::vec3 &position, const BlockType &type, Shape* shape, Texture *texture)
+	: blockType(type), shape(shape), texture(texture)
 {
 	model = glm::translate(model, position);
 }
@@ -13,9 +13,9 @@ glm::mat4 Entity::getModel() const
 	return model;
 }
 
-glm::vec3 Entity::getColor() const
+BlockType Entity::getBlockType() const
 {
-	return color;
+	return blockType;
 }
 
 Texture *Entity::getTexture() const

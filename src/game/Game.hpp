@@ -10,6 +10,7 @@
 #include <shape/CubeShape.hpp>
 #include <shape/CrossShape.hpp>
 #include <game/container/BlockContainer.hpp>
+#include <game/container/BlockType.hpp>
 #include "Controller.hpp"
 
 class Game
@@ -31,7 +32,7 @@ class Game
 
 		BlockContainer blocks;
 
-		bool nextBlockRed;
+		BlockType nBlockType;
 };
 
 #endif

@@ -1,15 +1,15 @@
 #include "Game.hpp"
 
 #include <iostream>
-
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <math/vec3i.hpp>
+#include <game/container/BlockType.hpp>
 
 Game::Game()
-	: camera(glm::vec3(0.0f, 0.0f, 3.0f), 0.0f, -90.f), controller(), nextBlockRed(true)
+	: camera(glm::vec3(0.0f, 0.0f, 3.0f), 0.0f, -90.f), controller(), nBlockType(BlockType::RED)
 {}
 
 void Game::init(const unsigned int screenWidth, const unsigned int screenHeight)
@@ -32,7 +32,7 @@ void Game::init(const unsigned int screenWidth, const unsigned int screenHeight)
 	cubeShape.load();
 	crossShape.load();
 
-	blocks.insert(vec3i(), new Entity(glm::vec3(0, 0, 0), glm::vec3(0.5f, 0.5f, 0.5f), &cubeShape, &texture));
+	blocks.insert(vec3i(), new Entity(glm::vec3(0, 0, 0), BlockType::NONE, &cubeShape, &texture));
 }
 
 void Game::tick()
@@ -50,7 +50,7 @@ void Game::render()
 	{
 		e->getTexture()->use();
 		e->getShape()->use();
-		gameShader.setVec3("color", e->getColor());
+		gameShader.setVec3("color", toColor(e->getBlockType()));
 		gameShader.setMat4("model", e->getModel());
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
@@ -58,7 +58,7 @@ void Game::render()
 
 	guiShader.use();
 	crossShape.use();
-	if (nextBlockRed) {
+	if (nBlockType == BlockType::RED) {
 		guiShader.setVec3("color", glm::vec3(0.7, 0.1f, 0.1f));
 	} else {
 		guiShader.setVec3("color", glm::vec3(0.5, 0.5f, 0.1f));
@@ -72,15 +72,8 @@ void Game::addBlock()
 	if (blocks.canPlaceBlockHere(camera.getPosition(), camera.getDirection(), newPosition))
 	{
 		std::cout << "placed block" << std::endl;
-		glm::vec3 c;
-		if (nextBlockRed)
-		{
-			c = glm::vec3(0.7f, 0.3f, 0.3f);
-		} else {
-			c = glm::vec3(0.6f, 0.6f, 0.2f);
-		}
-		nextBlockRed = !nextBlockRed;
-		blocks.insert(newPosition, new Entity(newPosition.toVec3(), c, &cubeShape, &texture));
+		blocks.insert(newPosition, new Entity(newPosition.toVec3(), nBlockType, &cubeShape, &texture));
+		nBlockType = nextBlockType(nBlockType);
 	}
 	else
 		std::cout << "cant place block" << std::endl;

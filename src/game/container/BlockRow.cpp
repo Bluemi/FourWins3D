@@ -4,13 +4,15 @@ BlockRow::BlockRow(const vec3i &step)
 	: step(step)
 {}
 
-void BlockRow::buildFrom(const vec3i &pos, BlockContainer *container)
+void BlockRow::buildFrom(const vec3i &pos, BlockContainer *container, const int limit)
 {
-	vec3i position = pos;
-	while (container->inScope(pos))
+	vec3i position = pos - (step*limit);
+	int counter = -limit;
+	while (counter <= limit)
 	{
 		blocks.push_back(container->get(position));
 		position = position + step;
+		counter++;
 	}
 }
 

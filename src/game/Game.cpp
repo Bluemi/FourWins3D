@@ -42,6 +42,7 @@ void Game::tick()
 
 void Game::render()
 {
+	blocks.tick();
 	gameShader.use();
 	gameShader.setMat4("view", camera.getLookAt());
 
@@ -74,7 +75,19 @@ void Game::addBlock()
 		std::cout << "placed block" << std::endl;
 		blocks.insert(newPosition, new Entity(newPosition.toVec3(), nBlockType, &cubeShape, &texture));
 		nBlockType = nextBlockType(nBlockType);
+		checkForWinners(newPosition);
 	}
 	else
 		std::cout << "cant place block" << std::endl;
+}
+
+void Game::checkForWinners(const vec3i &position)
+{
+	std::vector<Entity*> winnerEntities;
+	if (blocks.checkWinner(position, winnerEntities))
+	{
+		for (Entity* e : winnerEntities)
+			e->winner();
+		blocks.randomShit();
+	}
 }

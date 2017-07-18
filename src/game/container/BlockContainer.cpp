@@ -5,6 +5,9 @@
 
 #include <misc/Debug.hpp>
 #include "BlockState.hpp"
+#include "BlockRow.hpp"
+
+const int BlockContainer::WINNER_LIMIT = 4;
 
 BlockContainer::BlockContainer()
 {}
@@ -95,4 +98,39 @@ bool BlockContainer::canPlaceBlockHere(const glm::vec3 &camPosition, const glm::
 		}
 	}
 	return found;
+}
+
+bool BlockContainer::checkWinner(const vec3i &position, std::vector<Entity*> &winnerEntities)
+{
+	for (int x = -1; x <= 1; x++)
+	for (int y = -1; y <= 1; y++)
+	for (int z = -1; z <= 1; z++)
+	{
+		if (x || y || z)
+		{
+			BlockRow row(vec3i(x, y, z));
+			row.buildFrom(position, this, WINNER_LIMIT);
+			if (row.hasWinnerRow(WINNER_LIMIT, winnerEntities) != BlockType::NONE)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+void BlockContainer::tick()
+{
+	for (Entity* e : blockList)
+	{
+		e->tick();
+	}
+}
+
+void BlockContainer::randomShit()
+{
+	for (Entity* e : blockList)
+	{
+		e->randomShit();
+	}
 }

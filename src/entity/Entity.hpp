@@ -16,11 +16,22 @@ class Entity
 		BlockType getBlockType() const;
 		Texture *getTexture() const;
 		Shape *getShape() const;
+
+		void winner();
+		void randomShit();
+
+		void tick();
 	private:
-		glm::mat4 model;
 		BlockType blockType;
 		Shape *shape;
 		Texture *texture;
+		glm::vec3 position;
+		glm::vec3 speed;
+
+		float rotation;
+		float spin;
+
+		bool win = false;
 };
 
 #endif

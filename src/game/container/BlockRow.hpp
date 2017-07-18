@@ -11,7 +11,7 @@ class BlockRow
 	public:
 		BlockRow(const vec3i &step);
 		vec3i getStep() const;
-		void buildFrom(const vec3i &pos, BlockContainer *container);
+		void buildFrom(const vec3i &pos, BlockContainer *container, const int limit);
 		BlockType hasWinnerRow(const unsigned int limit, std::vector<Entity*> &winnerEntities);
 	private:
 		std::vector<Entity*> blocks;

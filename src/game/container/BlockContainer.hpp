@@ -20,6 +20,12 @@ class BlockContainer
 		const std::vector<Entity*>& getList() const;
 		Entity* get(const vec3i &index);
 		bool canPlaceBlockHere(const glm::vec3 &camPosition, const glm::vec3 &camDir, vec3i &newPosition);
+		bool checkIterateOver(const int originBegin, const vec3i &direction, const int firstIterateIndex, const int secondIterateIndex, std::vector<Entity*> &winnerEntities);
+		bool checkWinner(const vec3i &position, std::vector<Entity*> &winnerEntities);
+		void tick();
+		void randomShit();
+
+		static const int WINNER_LIMIT;
 	private:
 		std::map<int, std::map<int, std::map<int, Entity*>>> blocks;
 		std::vector<Entity*> blockList;

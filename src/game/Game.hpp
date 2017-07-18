@@ -11,6 +11,7 @@
 #include <shape/CrossShape.hpp>
 #include <game/container/BlockContainer.hpp>
 #include <game/container/BlockType.hpp>
+#include <math/vec3i.hpp>
 #include "Controller.hpp"
 
 class Game
@@ -21,6 +22,7 @@ class Game
 		void tick();
 		void render();
 		void addBlock();
+		void checkForWinners(const vec3i &position);
 	private:
 		Camera camera;
 		ShaderProgram gameShader;

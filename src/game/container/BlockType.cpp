@@ -23,7 +23,7 @@ BlockType nextBlockType(BlockType t)
 
 glm::vec3 toColor(const BlockType type)
 {
-	glm::vec3 c;
+	glm::vec3 c(0.f);
 	switch (type)
 	{
 		case BlockType::NONE:

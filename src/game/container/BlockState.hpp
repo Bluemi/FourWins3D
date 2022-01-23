@@ -10,15 +10,12 @@ struct BlockState
 	glm::vec3 direction;
 
 	BlockState(const glm::vec3 &pos, const glm::vec3 &dir)
-		: blockIndex(round(pos.x), round(pos.y), round(pos.z))
-	{
-		position = pos;
-		direction = dir;
-	}
+		: blockIndex(round(pos.x), round(pos.y), round(pos.z)), position(pos), direction(dir)
+	{}
 
 	glm::vec3 getTarget()
 	{
-		glm::vec3 target;
+		glm::vec3 target(0.f);
 		for (int i = 0; i < 3; i++)
 		{
 			if (direction[i] > 0.0f) {

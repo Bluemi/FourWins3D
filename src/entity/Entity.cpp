@@ -5,12 +5,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 Entity::Entity(const glm::vec3 &position, const BlockType &type, Shape* shape, Texture *texture)
-	: blockType(type), shape(shape), texture(texture), position(position), rotation(0.0f), spin(0.0f)
+	: blockType(type), shape(shape), texture(texture), position(position), speed(0.f, 0.f, 0.f), rotation(0.0f), spin(0.0f)
 {}
 
 glm::mat4 Entity::getModel() const
 {
-	glm::mat4 model;
+	glm::mat4 model(1.f);
 	model = glm::translate(model, position);
 	if (rotation != 0.0f)
 		model = glm::rotate(model, rotation, speed);

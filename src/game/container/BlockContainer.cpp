@@ -10,6 +10,7 @@
 const int BlockContainer::WINNER_LIMIT = 5;
 
 BlockContainer::BlockContainer()
+	: minIndex(0, 0, 0), maxIndex(0, 0, 0)
 {}
 
 BlockContainer::~BlockContainer()

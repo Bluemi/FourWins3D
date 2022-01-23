@@ -8,7 +8,7 @@
 #include <interaction/KeyboardManager.hpp>
 
 Camera::Camera(const glm::vec3 &pos, const float pitch, const float yaw)
-	: position(pos), pitch(pitch), yaw(yaw), moveForward(0), moveRight(0), moveTop(0)
+	: position(pos), speed(0.f, 0.f, 0.f), pitch(pitch), yaw(yaw), moveForward(0), moveRight(0), moveTop(0)
 {}
 
 void Camera::tick()
@@ -107,6 +107,9 @@ void Camera::onKeyPressed(const int key)
 		case GLFW_KEY_LEFT_CONTROL:
 			moveTop--;
 			break;
+		case GLFW_KEY_R:
+			printStats();
+			break;
 		default:
 			break;
 	}
@@ -137,4 +140,9 @@ void Camera::onKeyReleased(const int key)
 		default:
 			break;
 	}
+}
+
+void Camera::printStats() const {
+	std::cout << "position=(" << position.x << "," << position.y << "," << position.z << ")\n"
+			  << "yaw=" << yaw << "  pitch=" << pitch << std::endl;
 }

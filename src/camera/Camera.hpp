@@ -28,6 +28,8 @@ class Camera : public MouseListener, public KeyboardListener
 		virtual void onMouseMoved(glm::vec2 diff) override;
 		virtual void onKeyPressed(const int key) override;
 		virtual void onKeyReleased(const int key) override;
+
+		void printStats() const;
 	private:
 		const float CAMERA_SPEED = 0.03f;
 		const float CAMERA_ROTATE_SPEED = 0.1f;
